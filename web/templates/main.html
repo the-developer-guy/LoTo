@@ -12,6 +12,15 @@
     <main>
         <h1>{{.PageTitle}}</h1>  
         <h2>Keep your projects safe</h2>
+        <table style="border: 1px solid black;">
+        {{ range .Services }}
+        <tr>
+          <td style="border: 1px solid black;">{{ .Name }}</td>
+          <td style="border: 1px solid black;"><a href="{{ .Url }}" target="_blank">{{ .Url }}</a></td>
+          <td style="border: 1px solid black;">{{ if .Locked }}🔒{{ else }}✅{{ end }}</td>
+        </tr>
+        {{ end }}
+        </table>
         <p>version {{.Version}}</p>
         <p>Updates on <a href="https://x.com/thembeddevguy">X/twitter</a> and <a href="https://patreon.com/thedeveloperguy">Patreon</a></p>
         <p>If you are super bored,  <a href="https://youtube.com/thedeveloperguy">watch my stuff on YouTube</a></p> 
