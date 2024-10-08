@@ -1,7 +1,7 @@
 package main
 
-import "fmt"
+import "github.com/the-developer-guy/LoTo/web"
 
 func main() {
-	fmt.Println("Hello!")
+	web.StartServer()
 }
