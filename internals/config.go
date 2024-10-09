@@ -8,8 +8,8 @@ import (
 )
 
 type LotoConfig struct {
-	Name     string     `yaml:"name"`
-	Services *[]Service `yaml:"services"`
+	Name     string      `yaml:"name"`
+	Services *[]*Service `yaml:"services"`
 }
 
 type Service struct {
@@ -40,7 +40,7 @@ func GetConfig() (*LotoConfig, error) {
 	defer db.Database.Close()
 
 	for _, config := range *config.Services {
-		db.InitConfig(&config)
+		db.InitConfig(config)
 	}
 
 	return &config, nil

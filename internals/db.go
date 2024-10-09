@@ -75,6 +75,28 @@ func (dh *DatabaseHelper) InsertService(service *Service) error {
 	return nil
 }
 
+func (dh *DatabaseHelper) Lock(name string) error {
+	lockStatement := `UPDATE services SET reservedBy='placeholder'
+					  WHERE name=?`
+	statement, err := dh.Database.Prepare(lockStatement)
+	if err != nil {
+		return err
+	}
+	_, err = statement.Exec(name)
+	return err
+}
+
+func (dh *DatabaseHelper) Unlock(name string) error {
+	lockStatement := `UPDATE services SET reservedBy=''
+					  WHERE name=?`
+	statement, err := dh.Database.Prepare(lockStatement)
+	if err != nil {
+		return err
+	}
+	_, err = statement.Exec(name)
+	return err
+}
+
 func (dh *DatabaseHelper) dbInit() error {
 	initStatement := `CREATE TABLE IF NOT EXISTS services (
 		"id" integer NOT NULL PRIMARY KEY AUTOINCREMENT,		
