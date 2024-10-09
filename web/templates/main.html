@@ -16,7 +16,7 @@
         <tr>
           <td style="border: 1px solid black;">{{ .Name }}</td>
           <td style="border: 1px solid black;"><a href="{{ .Url }}" target="_blank">{{ .Url }}</a></td>
-          <td style="border: 1px solid black;">{{ if .Locked }}🔒{{ else }}✅{{ end }}</td>
+          <td style="border: 1px solid black;"><a href="{{ if .Locked }}unlock/{{ .Name }}">🔒{{ else }}lock/{{ .Name }}">✅{{ end }}</a></td>
         </tr>
         {{ end }}
         </table>

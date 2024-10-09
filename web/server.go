@@ -26,8 +26,8 @@ func StartServer(config *internals.LotoConfig) {
 		Services:  config.Services,
 	}
 	http.HandleFunc("/", Home)
-	http.HandleFunc("/lock", Lock)
-	http.HandleFunc("/unlock", Unlock)
+	http.HandleFunc("/lock/{name}", Lock)
+	http.HandleFunc("/unlock/{name}", Unlock)
 
 	var err error
 	db, err = internals.NewDatabaseHelper()
@@ -50,11 +50,15 @@ func Home(w http.ResponseWriter, r *http.Request) {
 }
 
 func Lock(w http.ResponseWriter, r *http.Request) {
-	db.Lock("coffee machine")
-	w.Write([]byte("ok"))
+	serviceName := r.PathValue("name")
+	db.Lock(serviceName)
+	w.Header().Add("Content-Type", "")
+	http.Redirect(w, r, fmt.Sprintf("http://%s", r.Host), http.StatusSeeOther)
 }
 
 func Unlock(w http.ResponseWriter, r *http.Request) {
-	db.Unlock("coffee machine")
-	w.Write([]byte("ok"))
+	serviceName := r.PathValue("name")
+	db.Unlock(serviceName)
+	w.Header().Add("Content-Type", "")
+	http.Redirect(w, r, fmt.Sprintf("http://%s", r.Host), http.StatusSeeOther)
 }
