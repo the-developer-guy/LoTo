@@ -10,4 +10,6 @@ The goal is to make a super simple LoTo for internal use. Do you have VMs or oth
 
 ## Configuration
 
-Mount the customized config.yaml (preferably to /etc/loto/config.yaml) and set the LOTO_CONFIG_PATH to the config file.
+Mount the customized config.yaml (preferably to `/etc/loto/config.yaml`) and set the  `LOTO_CONFIG_PATH` to the config file.
+
+The database behind such a basic app is SQLite. Set the `LOTO_SQLITE_PATH` (preferably to `/etc/loto/loto.db`) and set up a volume.

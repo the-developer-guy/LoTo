@@ -32,5 +32,16 @@ func GetConfig() (*LotoConfig, error) {
 	if err != nil {
 		return nil, err
 	}
+
+	db, err := NewDatabaseHelper()
+	if err != nil {
+		return nil, err
+	}
+	defer db.Database.Close()
+
+	for _, config := range *config.Services {
+		db.InitConfig(&config)
+	}
+
 	return &config, nil
 }

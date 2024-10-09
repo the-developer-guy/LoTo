@@ -11,7 +11,8 @@
             "mode": "auto",
             "program": "${workspaceFolder}",
             "env": {
-                "LOTO_CONFIG_PATH": "config.yaml"
+                "LOTO_CONFIG_PATH": "config.yaml",
+                "LOTO_SQLITE_PATH": "services.db"
             }
         }
     ]
