@@ -1,0 +1,6 @@
+name: Example application
+services:
+  - name: main branch
+    url: https://github.com/the-developer-guy/LoTo
+  - name: coffee machine
+    url: https://www.cl.cam.ac.uk/coffee/xvcoffee.html

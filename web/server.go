@@ -1,8 +1,11 @@
 package web
 
 import (
+	"fmt"
 	"html/template"
 	"net/http"
+
+	"github.com/the-developer-guy/LoTo/internals"
 )
 
 type MainPage struct {
@@ -17,32 +20,26 @@ type Service struct {
 	Locked bool
 }
 
-func getServices() *[]Service {
+func StartServer(config *internals.LotoConfig) {
 	services := []Service{}
-	services = append(services, Service{
-		Name:   "main branch",
-		Url:    "https://github.com/the-developer-guy/LoTo",
-		Locked: false,
-	})
-	services = append(services, Service{
-		Name:   "coffee machine",
-		Url:    "https://www.cl.cam.ac.uk/coffee/xvcoffee.html",
-		Locked: true,
-	})
-
-	return &services
-}
-
-func StartServer() {
+	for _, service := range *config.Services {
+		s := Service{
+			Name:   service.Name,
+			Url:    service.Url,
+			Locked: false,
+		}
+		services = append(services, s)
+	}
 	tmpl := template.Must(template.ParseFiles("web/templates/main.html"))
 	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
 		data := MainPage{
-			PageTitle: "LoTo - 🔒Lockout-Tagout🏷️",
+			PageTitle: config.Name,
 			Version:   "1.0.0",
-			Services:  getServices(),
+			Services:  &services,
 		}
 		tmpl.Execute(w, data)
 	})
 
-	http.ListenAndServe(":8080", nil)
+	err := http.ListenAndServe(":8080", nil)
+	fmt.Println(err.Error())
 }
