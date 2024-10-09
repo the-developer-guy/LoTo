@@ -11,31 +11,16 @@ import (
 type MainPage struct {
 	PageTitle string
 	Version   string
-	Services  *[]Service
-}
-
-type Service struct {
-	Name   string
-	Url    string
-	Locked bool
+	Services  *[]internals.Service
 }
 
 func StartServer(config *internals.LotoConfig) {
-	services := []Service{}
-	for _, service := range *config.Services {
-		s := Service{
-			Name:   service.Name,
-			Url:    service.Url,
-			Locked: false,
-		}
-		services = append(services, s)
-	}
 	tmpl := template.Must(template.ParseFiles("web/templates/main.html"))
 	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
 		data := MainPage{
 			PageTitle: config.Name,
 			Version:   "1.0.0",
-			Services:  &services,
+			Services:  config.Services,
 		}
 		tmpl.Execute(w, data)
 	})
