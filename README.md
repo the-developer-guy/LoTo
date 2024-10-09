@@ -10,4 +10,4 @@ The goal is to make a super simple LoTo for internal use. Do you have VMs or oth
 
 ## Configuration
 
-Mount the customized config.yaml to /etc/loto/config.yaml. That's it!
+Mount the customized config.yaml (preferably to /etc/loto/config.yaml) and set the LOTO_CONFIG_PATH to the config file.
