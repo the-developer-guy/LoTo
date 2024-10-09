@@ -3,7 +3,6 @@ package internals
 import (
 	"database/sql"
 	"fmt"
-	"log"
 	"os"
 
 	_ "github.com/mattn/go-sqlite3"
@@ -112,27 +111,32 @@ func (dh *DatabaseHelper) dbInit() error {
 	return err
 }
 
-func (dh *DatabaseHelper) dbDump() error {
+func (dh *DatabaseHelper) GetServices() (*[]*Service, error) {
 	row, err := dh.Database.Query(`SELECT name, url, reservedBy FROM services`)
 	if err != nil {
-		return err
+		return nil, err
 	}
 	defer row.Close()
 
+	services := []*Service{}
 	for row.Next() {
 		var name, url, reservedBy sql.NullString
 		row.Scan(&name, &url, &reservedBy)
+		service := Service{}
 		if name.Valid {
-			log.Print(name.String)
+			service.Name = name.String
 		}
 		if url.Valid {
-			log.Print(url.String)
+			service.Url = url.String
 		}
 		if reservedBy.Valid {
-			log.Print(reservedBy.String)
+			service.Locked = reservedBy.String != ""
+		} else {
+			service.Locked = false
 		}
-		log.Println()
+		services = append(services, &service)
 
 	}
-	return err
+
+	return &services, nil
 }

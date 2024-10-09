@@ -40,6 +40,12 @@ func StartServer(config *internals.LotoConfig) {
 }
 
 func Home(w http.ResponseWriter, r *http.Request) {
+	var err error
+	homePage.Services, err = db.GetServices()
+	if err != nil {
+		w.Write([]byte("error"))
+		return
+	}
 	homeTemplate.Execute(w, homePage)
 }
 
